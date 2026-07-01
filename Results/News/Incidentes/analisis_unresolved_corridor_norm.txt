@@ -1,0 +1,99 @@
+Analisis de corridor_norm no resueltos
+=====================================
+
+1. Lectura correcta del problema
+--------------------------------
+Hay dos niveles distintos de no resolucion:
+
+- Eventos con text_osm_resolution = UNRESOLVED: 57 de 113.
+- Eventos con corridor_norm vacio: 32 de 113.
+
+Esto significa que no todos los UNRESOLVED estan perdidos. Algunos tienen corredor textual, pero no tienen una corroboracion OSM con nombre/ref util.
+
+2. Causas principales
+---------------------
+| unresolved_cause | recommended_action | events | mentions | impact_social | fatality_events | injury_events | road_text_events |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| F_COORDENADA_VALIDA_PERO_OSM_SIN_NOMBRE_REF_Y_SIN_TEXTO_VIAL | NO_ASIGNAR_CORREDOR_SIN_REVISION;_PROBAR_NEAREST_NAMED_OSM | 17 | 39 | 455.17269999999996 | 3 | 2 | 3 |
+| B_SIN_COORDENADA_CON_CORREDOR_TEXTUAL | GEOCODIFICAR_DIRECCION_O_ASOCIAR_SOLO_COMO_CORREDOR_TEXTUAL | 12 | 20 | 101.22460000000001 | 0 | 3 | 12 |
+| E_CORREDOR_TEXTUAL_PERO_OSM_SIN_NOMBRE_REF | BUSCAR_SEGMENTO_OSM_NOMBRADO_EN_RADIO_O_ACEPTAR_TEXTO_CON_BAJA_CONFIANZA | 11 | 19 | 99.7757 | 2 | 2 | 10 |
+| A_SIN_COORDENADA_SIN_CORREDOR_TEXTUAL | NO_USAR_PARA_CORREDOR_HASTA_TENER_UBICACION | 8 | 9 | 124.6971 | 1 | 0 | 0 |
+| A_SIN_COORDENADA_SIN_CORREDOR_TEXTUAL | REVISAR_TEXTO_O_GEOCODIFICAR | 4 | 10 | 21.4708 | 0 | 2 | 4 |
+| H_OSM_CON_REF_NO_NORMALIZADA_O_SIN_REGLA | AGREGAR_REGLA_REF_OSM_TRAS_VALIDACION | 2 | 2 | 6.0 | 0 | 1 | 1 |
+| D_COORDENADA_SIN_SEGMENTO_OSM_CERCANO | REVISAR_COORDENADA_O_COBERTURA_OSM | 1 | 6 | 18.3059 | 0 | 1 | 1 |
+| C_COORDENADA_FUERA_SV | REVISAR_GEOCODIFICACION | 1 | 27 | 0.0 | 0 | 1 | 1 |
+| G_DISTANCIA_OSM_CONFLICTIVA | REVISAR_COORDENADA_VS_TERRITORIO | 1 | 3 | 0.0 | 0 | 1 | 0 |
+
+3. Interpretacion
+-----------------
+Los casos no resueltos se explican principalmente por tres fenomenos:
+
+- Falta de coordenada y falta de corredor textual suficientemente claro.
+- Coordenada valida, pero el segmento OSM mas cercano no tiene nombre ni ref, por lo que no se debe inventar un corredor funcional.
+- Texto con corredor presente, pero sin coordenada o sin corroboracion OSM nombrada.
+
+4. Casos con corridor_norm vacio
+-------------------------------
+| ticketNumber | datetime | department_norm | municipality_norm | address | unresolved_cause | recommended_action | coordinate_quality_status | osm_match_status | mentions | impact_social_score | severity_class |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| LOCAL-908174e9 | 2026-06-30 06:00:00 | LA LIBERTAD | Antiguo Cuscatlán |  | F_COORDENADA_VALIDA_PERO_OSM_SIN_NOMBRE_REF_Y_SIN_TEXTO_VIAL | NO_ASIGNAR_CORREDOR_SIN_REVISION;_PROBAR_NEAREST_NAMED_OSM | VALID_POINT | SPATIAL_OSM_HIGH | 1 | 197.0 | TRAFFIC_ACCIDENT_UNSPECIFIED |
+| LOCAL-09ddeaee | 2026-06-29 11:49:02 | SAN SALVADOR | Cuscatancingo | zona de Mariona | F_COORDENADA_VALIDA_PERO_OSM_SIN_NOMBRE_REF_Y_SIN_TEXTO_VIAL | NO_ASIGNAR_CORREDOR_SIN_REVISION;_PROBAR_NEAREST_NAMED_OSM | VALID_POINT_REPEATED_COORDINATE | SPATIAL_OSM_HIGH | 9 | 106.2558 | TRAFFIC_ACCIDENT_UNSPECIFIED |
+| LOCAL-d93e412c | 2026-06-29 20:32:10 | SIN_DEPTO | SIN_MUNICIPIO |  | A_SIN_COORDENADA_SIN_CORREDOR_TEXTUAL | NO_USAR_PARA_CORREDOR_HASTA_TENER_UBICACION | MISSING_POINT | NO_COORDINATE_FOR_OSM | 1 | 68.7549 | TRAFFIC_ACCIDENT_UNSPECIFIED |
+| LOCAL-01b8f737 | 2026-06-29 19:34:41 | SANTA ANA | Santa Ana |  | F_COORDENADA_VALIDA_PERO_OSM_SIN_NOMBRE_REF_Y_SIN_TEXTO_VIAL | NO_ASIGNAR_CORREDOR_SIN_REVISION;_PROBAR_NEAREST_NAMED_OSM | VALID_POINT_REPEATED_COORDINATE | SPATIAL_OSM_HIGH | 3 | 33.3005 | TRAFFIC_ACCIDENT_UNSPECIFIED |
+| LOCAL-26d000b3 | 2026-06-30 08:15:29 | LA LIBERTAD | Quezaltepeque |  | A_SIN_COORDENADA_SIN_CORREDOR_TEXTUAL | NO_USAR_PARA_CORREDOR_HASTA_TENER_UBICACION | MISSING_POINT | NO_COORDINATE_FOR_OSM | 2 | 28.4128 | FATALITY_REPORTED |
+| LOCAL-141010e2 | 2026-06-29 19:16:45 | SAN SALVADOR | San Salvador |  | F_COORDENADA_VALIDA_PERO_OSM_SIN_NOMBRE_REF_Y_SIN_TEXTO_VIAL | NO_ASIGNAR_CORREDOR_SIN_REVISION;_PROBAR_NEAREST_NAMED_OSM | VALID_POINT_REPEATED_COORDINATE | SPATIAL_OSM_HIGH | 1 | 27.4739 | TRAFFIC_ACCIDENT_UNSPECIFIED |
+| LOCAL-295143d8 | 2026-06-30 08:57:17 | SIN_DEPTO | Quezaltepeque |  | A_SIN_COORDENADA_SIN_CORREDOR_TEXTUAL | NO_USAR_PARA_CORREDOR_HASTA_TENER_UBICACION | MISSING_POINT | NO_COORDINATE_FOR_OSM | 1 | 19.8309 | TRAFFIC_ACCIDENT_UNSPECIFIED |
+| LOCAL-be393116 | 2026-06-29 08:00:00 | LA LIBERTAD | Quezaltepeque | Quezaltepeque, La Libertad | F_COORDENADA_VALIDA_PERO_OSM_SIN_NOMBRE_REF_Y_SIN_TEXTO_VIAL | NO_ASIGNAR_CORREDOR_SIN_REVISION;_PROBAR_NEAREST_NAMED_OSM | VALID_POINT | SPATIAL_OSM_HIGH | 8 | 19.5235 | FATALITY_REPORTED |
+| LOCAL-d2c1bd7b | 2026-06-29 15:12:59 | CABAÑAS | Ilobasco | caserío Los Hernández, Ilobasco | F_COORDENADA_VALIDA_PERO_OSM_SIN_NOMBRE_REF_Y_SIN_TEXTO_VIAL | NO_ASIGNAR_CORREDOR_SIN_REVISION;_PROBAR_NEAREST_NAMED_OSM | VALID_POINT | SPATIAL_OSM_LOW_REVIEW | 2 | 15.2971 | TRAFFIC_ACCIDENT_UNSPECIFIED |
+| LOCAL-98d6af05 | 2026-06-29 18:49:21 | SAN SALVADOR | San Salvador |  | F_COORDENADA_VALIDA_PERO_OSM_SIN_NOMBRE_REF_Y_SIN_TEXTO_VIAL | NO_ASIGNAR_CORREDOR_SIN_REVISION;_PROBAR_NEAREST_NAMED_OSM | VALID_POINT_REPEATED_COORDINATE | SPATIAL_OSM_HIGH | 2 | 14.8112 | TRAFFIC_ACCIDENT_UNSPECIFIED |
+| LOCAL-fb09476f | 2026-06-30 06:00:00 | SAN MIGUEL | San Miguel | carretera que conduce hacia El Delirio, frente al restaurante La Pema, en las cercanías de Walmart | A_SIN_COORDENADA_SIN_CORREDOR_TEXTUAL | REVISAR_TEXTO_O_GEOCODIFICAR | MISSING_POINT | NO_COORDINATE_FOR_OSM | 4 | 11.4708 | TRAFFIC_ACCIDENT_UNSPECIFIED |
+| LOCAL-56bc551b | 2026-06-30 01:25:00 | CUSCATLÁN | San Rafael Cedros | altura: san rafael cedros | A_SIN_COORDENADA_SIN_CORREDOR_TEXTUAL | REVISAR_TEXTO_O_GEOCODIFICAR | MISSING_POINT | NO_COORDINATE_FOR_OSM | 1 | 10.0 | OTHER_LOW_INFORMATION |
+| LOCAL-cdf7256a | 2026-06-28 08:05:54 | SAN SALVADOR | San Salvador |  | F_COORDENADA_VALIDA_PERO_OSM_SIN_NOMBRE_REF_Y_SIN_TEXTO_VIAL | NO_ASIGNAR_CORREDOR_SIN_REVISION;_PROBAR_NEAREST_NAMED_OSM | VALID_POINT_REPEATED_COORDINATE | SPATIAL_OSM_HIGH | 2 | 8.3852 | TRAFFIC_ACCIDENT_UNSPECIFIED |
+| LOCAL-a4d28d89 | 2026-06-28 11:57:06 | SONSONATE | Sonsonate | frente a VIDRI, Sonsonate Centro | F_COORDENADA_VALIDA_PERO_OSM_SIN_NOMBRE_REF_Y_SIN_TEXTO_VIAL | NO_ASIGNAR_CORREDOR_SIN_REVISION;_PROBAR_NEAREST_NAMED_OSM | VALID_POINT_REPEATED_COORDINATE | SPATIAL_OSM_HIGH | 3 | 7.6399 | MATERIAL_DAMAGE_ONLY |
+| LOCAL-a212b1b9 | 2026-06-29 00:18:24 | SAN SALVADOR | Cuscatancingo | frente a colegio en Cuscatancingo | F_COORDENADA_VALIDA_PERO_OSM_SIN_NOMBRE_REF_Y_SIN_TEXTO_VIAL | NO_ASIGNAR_CORREDOR_SIN_REVISION;_PROBAR_NEAREST_NAMED_OSM | VALID_POINT_REPEATED_COORDINATE | SPATIAL_OSM_HIGH | 1 | 6.0981 | TRAFFIC_ACCIDENT_UNSPECIFIED |
+| LOCAL-18e58c43 | 2026-06-29 15:45:21 | CUSCATLÁN | San Rafael Cedros | San Rafael Cedros, subiendo a San Salvador | F_COORDENADA_VALIDA_PERO_OSM_SIN_NOMBRE_REF_Y_SIN_TEXTO_VIAL | NO_ASIGNAR_CORREDOR_SIN_REVISION;_PROBAR_NEAREST_NAMED_OSM | VALID_POINT_REPEATED_COORDINATE | SPATIAL_OSM_MEDIUM | 1 | 6.0 | ROAD_AFFECTATION |
+| LOCAL-9b5355da | 2026-06-28 21:28:29 | SAN SALVADOR | Los Planes de Renderos | bajando los planes de renderos después de la Pampa | H_OSM_CON_REF_NO_NORMALIZADA_O_SIN_REGLA | AGREGAR_REGLA_REF_OSM_TRAS_VALIDACION | VALID_POINT_REPEATED_COORDINATE | SPATIAL_OSM_HIGH | 1 | 6.0 | TRAFFIC_ACCIDENT_UNSPECIFIED |
+| LOCAL-05800360 | 2026-06-28 12:27:20 | CUSCATLÁN | San Rafael Cedros | vía que conecta San Rafael Cedros con Ilobasco | F_COORDENADA_VALIDA_PERO_OSM_SIN_NOMBRE_REF_Y_SIN_TEXTO_VIAL | NO_ASIGNAR_CORREDOR_SIN_REVISION;_PROBAR_NEAREST_NAMED_OSM | VALID_POINT_REPEATED_COORDINATE | SPATIAL_OSM_MEDIUM | 1 | 5.9026 | FATALITY_REPORTED |
+| LOCAL-46de457f | 2026-06-29 06:17:19 | LA LIBERTAD | Santa Tecla | santa tecla una cuadra adelante del motel jhon junior | F_COORDENADA_VALIDA_PERO_OSM_SIN_NOMBRE_REF_Y_SIN_TEXTO_VIAL | NO_ASIGNAR_CORREDOR_SIN_REVISION;_PROBAR_NEAREST_NAMED_OSM | VALID_POINT | SPATIAL_OSM_HIGH | 1 | 5.0 | TRAFFIC_ACCIDENT_UNSPECIFIED |
+| LOCAL-0521d24e | 2026-06-29 06:20:33 | SIN_DEPTO | SIN_MUNICIPIO |  | A_SIN_COORDENADA_SIN_CORREDOR_TEXTUAL | NO_USAR_PARA_CORREDOR_HASTA_TENER_UBICACION | MISSING_POINT | NO_COORDINATE_FOR_OSM | 1 | 3.8918 | TRAFFIC_ACCIDENT_UNSPECIFIED |
+
+5. Casos UNRESOLVED pero con corredor textual
+---------------------------------------------
+Estos casos no deben tratarse igual que los vacios. Ya existe una senal textual de via/corredor, pero falta soporte espacial OSM fuerte.
+
+| ticketNumber | datetime | department_norm | municipality_norm | address | corridor_norm | unresolved_cause | recommended_action | coordinate_quality_status | osm_match_status | mentions | impact_social_score | severity_class |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| LOCAL-36af4326 | 2026-06-28 22:14:47 | SAN SALVADOR | San Salvador | autopista a Comalapa, en el sector de Jardines del Recuerdo | Autopista a Comalapa | E_CORREDOR_TEXTUAL_PERO_OSM_SIN_NOMBRE_REF | BUSCAR_SEGMENTO_OSM_NOMBRADO_EN_RADIO_O_ACEPTAR_TEXTO_CON_BAJA_CONFIANZA | VALID_POINT | SPATIAL_OSM_HIGH | 4 | 39.2521 | TRAFFIC_ACCIDENT_UNSPECIFIED |
+| LOCAL-eed49d55 | 2026-06-29 08:54:35 | SIN_DEPTO | SIN_MUNICIPIO | kilómetro 15 de la carretera de Oro | Carretera de Oro | B_SIN_COORDENADA_CON_CORREDOR_TEXTUAL | GEOCODIFICAR_DIRECCION_O_ASOCIAR_SOLO_COMO_CORREDOR_TEXTUAL | MISSING_POINT | NO_COORDINATE_FOR_OSM | 4 | 35.079 | INJURY_REPORTED |
+| LOCAL-ca0790fa | 2026-06-30 08:31:36 | SIN_DEPTO | SIN_MUNICIPIO | calle al Volcán y final de la avenida Bernal | Avenida Bernal | B_SIN_COORDENADA_CON_CORREDOR_TEXTUAL | GEOCODIFICAR_DIRECCION_O_ASOCIAR_SOLO_COMO_CORREDOR_TEXTUAL | MISSING_POINT | NO_COORDINATE_FOR_OSM | 3 | 25.3185 | INJURY_REPORTED |
+| LOCAL-fa5bd317 | 2026-06-29 07:22:19 | LA LIBERTAD | Antiguo Cuscatlán | carretera Panamericana, a inmediaciones de la comunidad La Cuchilla y frente al centro comercial Multiplaza, de Antiguo Cuscatlán | Carretera Panamericana | E_CORREDOR_TEXTUAL_PERO_OSM_SIN_NOMBRE_REF | BUSCAR_SEGMENTO_OSM_NOMBRADO_EN_RADIO_O_ACEPTAR_TEXTO_CON_BAJA_CONFIANZA | VALID_POINT | SPATIAL_OSM_MEDIUM | 3 | 21.2364 | TRAFFIC_ACCIDENT_UNSPECIFIED |
+| LOCAL-7535c775 | 2026-06-30 09:08:43 | LA LIBERTAD | Colón | carretera hacia Sonsonate, en las cercanías del mercado de Lourdes, distrito de Colón | Carretera A Sonsonate | D_COORDENADA_SIN_SEGMENTO_OSM_CERCANO | REVISAR_COORDENADA_O_COBERTURA_OSM | VALID_POINT_REPEATED_COORDINATE | NO_NEAR_OSM_SEGMENT | 6 | 18.3059 | INJURY_REPORTED |
+| LOCAL-d2303adc | 2026-06-30 07:26:40 | SAN MIGUEL | El Tránsito | carretera del Litoral, cerca del puente El Marañón, en El Tránsito, San Miguel | Carretera del Litoral | B_SIN_COORDENADA_CON_CORREDOR_TEXTUAL | GEOCODIFICAR_DIRECCION_O_ASOCIAR_SOLO_COMO_CORREDOR_TEXTUAL | MISSING_POINT | NO_COORDINATE_FOR_OSM | 1 | 11.6859 | TRAFFIC_ACCIDENT_UNSPECIFIED |
+| LOCAL-fcc64347 | 2026-06-30 09:00:05 | SAN SALVADOR | SIN_MUNICIPIO | bulevar del Ejército | Carretera Panamericana | B_SIN_COORDENADA_CON_CORREDOR_TEXTUAL | GEOCODIFICAR_DIRECCION_O_ASOCIAR_SOLO_COMO_CORREDOR_TEXTUAL | MISSING_POINT | NO_COORDINATE_FOR_OSM | 1 | 10.8711 | OTHER_LOW_INFORMATION |
+| LOCAL-129d83cb | 2026-06-29 02:00:00 | SANTA ANA | Santa Ana | calle los naranjos a la altura del km 78 de la finca el manzano | Calle los Naranjos | E_CORREDOR_TEXTUAL_PERO_OSM_SIN_NOMBRE_REF | BUSCAR_SEGMENTO_OSM_NOMBRADO_EN_RADIO_O_ACEPTAR_TEXTO_CON_BAJA_CONFIANZA | VALID_POINT | SPATIAL_OSM_HIGH | 1 | 9.0 | FATALITY_REPORTED |
+| LOCAL-c584a5c7 | 2026-06-29 07:21:32 | SAN SALVADOR | Ciudad Delgado | carretera Panamericana, sector de colonia El Altiplano, Ciudad Delgado | Carretera Panamericana | E_CORREDOR_TEXTUAL_PERO_OSM_SIN_NOMBRE_REF | BUSCAR_SEGMENTO_OSM_NOMBRADO_EN_RADIO_O_ACEPTAR_TEXTO_CON_BAJA_CONFIANZA | VALID_POINT | SPATIAL_OSM_MEDIUM | 3 | 8.3026 | TRAFFIC_ACCIDENT_UNSPECIFIED |
+| LOCAL-30f96d9e | 2026-06-30 11:07:00 | USULUTÁN | Santa María | bypass de Santa María | Bypass de Santa Maria | B_SIN_COORDENADA_CON_CORREDOR_TEXTUAL | GEOCODIFICAR_DIRECCION_O_ASOCIAR_SOLO_COMO_CORREDOR_TEXTUAL | MISSING_POINT | NO_COORDINATE_FOR_OSM | 3 | 7.6333 | INJURY_REPORTED |
+| LOCAL-e144b3ef | 2026-06-28 11:55:23 | SONSONATE | Sonsonate | frente a VIDRI, Sonsonate Centro | Ruta 246 | E_CORREDOR_TEXTUAL_PERO_OSM_SIN_NOMBRE_REF | BUSCAR_SEGMENTO_OSM_NOMBRADO_EN_RADIO_O_ACEPTAR_TEXTO_CON_BAJA_CONFIANZA | VALID_POINT_REPEATED_COORDINATE | SPATIAL_OSM_HIGH | 1 | 7.4552 | TRAFFIC_ACCIDENT_UNSPECIFIED |
+| LOCAL-4c08da20 | 2026-06-28 21:00:00 | SONSONATE | Izalco | carretera a Sonsonate, a la altura del cantón Quebrada Española | Carretera A Sonsonate | E_CORREDOR_TEXTUAL_PERO_OSM_SIN_NOMBRE_REF | BUSCAR_SEGMENTO_OSM_NOMBRADO_EN_RADIO_O_ACEPTAR_TEXTO_CON_BAJA_CONFIANZA | VALID_POINT | SPATIAL_OSM_HIGH | 1 | 6.0 | FATALITY_REPORTED |
+| LOCAL-3d918d8c | 2026-06-28 05:59:34 | SIN_DEPTO | SIN_MUNICIPIO | carretera Panamericana oeste, en el tramo de Los Chorros | Carretera Panamericana | B_SIN_COORDENADA_CON_CORREDOR_TEXTUAL | GEOCODIFICAR_DIRECCION_O_ASOCIAR_SOLO_COMO_CORREDOR_TEXTUAL | MISSING_POINT | NO_COORDINATE_FOR_OSM | 1 | 5.8493 | OTHER_LOW_INFORMATION |
+| LOCAL-905a57c0 | 2026-06-29 21:00:00 | LA LIBERTAD | Colón | carretera Panamericana, en las cercanías de Campos Verdes, Lourdes Colón | Carretera Panamericana | B_SIN_COORDENADA_CON_CORREDOR_TEXTUAL | GEOCODIFICAR_DIRECCION_O_ASOCIAR_SOLO_COMO_CORREDOR_TEXTUAL | MISSING_POINT | NO_COORDINATE_FOR_OSM | 1 | 4.7875 | TRAFFIC_ACCIDENT_UNSPECIFIED |
+| LOCAL-aeee7e6e | 2026-06-29 10:22:13 | SANTA ANA | Santa Ana | carretera Panamericana, en el tramo que conduce de Plaza Maya hacia el redondel la Ceiba, Santa Ana Centro | Carretera Panamericana | E_CORREDOR_TEXTUAL_PERO_OSM_SIN_NOMBRE_REF | BUSCAR_SEGMENTO_OSM_NOMBRADO_EN_RADIO_O_ACEPTAR_TEXTO_CON_BAJA_CONFIANZA | VALID_POINT | SPATIAL_OSM_HIGH | 1 | 3.5835 | TRAFFIC_ACCIDENT_UNSPECIFIED |
+| LOCAL-e0a8bcb5 | 2026-06-28 16:48:23 | SANTA ANA | Santa Ana | carretera antigua a Santa Ana | Carretera Panamericana | E_CORREDOR_TEXTUAL_PERO_OSM_SIN_NOMBRE_REF | BUSCAR_SEGMENTO_OSM_NOMBRADO_EN_RADIO_O_ACEPTAR_TEXTO_CON_BAJA_CONFIANZA | VALID_POINT_REPEATED_COORDINATE | SPATIAL_OSM_HIGH | 2 | 2.0 | INJURY_REPORTED |
+| LOCAL-155c683b | 2026-06-29 07:03:29 | SAN SALVADOR | San Salvador Este | km 15, carretera Panamericana Este | Carretera Panamericana | E_CORREDOR_TEXTUAL_PERO_OSM_SIN_NOMBRE_REF | BUSCAR_SEGMENTO_OSM_NOMBRADO_EN_RADIO_O_ACEPTAR_TEXTO_CON_BAJA_CONFIANZA | VALID_POINT | SPATIAL_OSM_HIGH | 1 | 1.9459 | INJURY_REPORTED |
+| LOCAL-501cb478 | 2026-06-28 09:00:00 | SAN SALVADOR | Soyapango | calle el cañón, soyapango | Calle el Canon Soyapango | E_CORREDOR_TEXTUAL_PERO_OSM_SIN_NOMBRE_REF | BUSCAR_SEGMENTO_OSM_NOMBRADO_EN_RADIO_O_ACEPTAR_TEXTO_CON_BAJA_CONFIANZA | VALID_POINT_REPEATED_COORDINATE | SPATIAL_OSM_HIGH | 1 | 1.0 | OTHER_LOW_INFORMATION |
+| LOCAL-f988bff8 | 2026-06-29 17:28:08 | LA LIBERTAD | El Barillo |  | Boulevard Constitucion | C_COORDENADA_FUERA_SV | REVISAR_GEOCODIFICACION | OUTSIDE_EL_SALVADOR_BBOX | INVALID_POINT_FOR_OSM | 27 | 0.0 | INJURY_REPORTED |
+| LOCAL-80068537 | 2026-06-27 21:30:38 | SIN_DEPTO | SIN_MUNICIPIO | carretera los chorros a la altura de la pasarela de cuellar | Carretera Panamericana | B_SIN_COORDENADA_CON_CORREDOR_TEXTUAL | GEOCODIFICAR_DIRECCION_O_ASOCIAR_SOLO_COMO_CORREDOR_TEXTUAL | MISSING_POINT | NO_COORDINATE_FOR_OSM | 2 | 0.0 | TRAFFIC_ACCIDENT_UNSPECIFIED |
+
+6. Acciones recomendadas
+------------------------
+Para mejorar la resolucion se recomienda:
+
+1. Agregar una busqueda secundaria de `nearest named OSM segment`: si el segmento mas cercano no tiene `name` ni `ref`, buscar dentro de 150-300 m el segmento nombrado mas cercano.
+2. Mejorar la extraccion textual para patrones como `carretera que conduce hacia`, `via que conecta A con B`, `sentido A a B`, `desvio X` y referencias tipo `bypass`.
+3. Geocodificar los casos con corredor textual pero sin coordenada, manteniendo confianza baja/media segun precision.
+4. Crear reglas manuales solo para referencias OSM validadas, por ejemplo `SAL50S` o `PAZ32S`, antes de convertirlas en corredores funcionales.
+5. No asignar corredor a eventos que solo tienen municipio/zona o coordenada generica sin texto vial. Deben permanecer como territoriales, no viales.
+
+7. Conclusion
+-------------
+Los no resueltos no invalidan la metodologia. Mas bien muestran donde falta informacion para elevar confianza. El problema principal no es la imposibilidad de asociar noticias a vias, sino la necesidad de separar: corredor confirmado, corredor textual sin soporte OSM, evento territorial sin corredor y caso que requiere geocodificacion o revision.

@@ -1,0 +1,55 @@
+Investigacion de casos con OSM sin name/ref y sin corridor_norm
+===============================================================
+
+Casos investigados: 17
+
+Estos casos son eventos con coordenada valida, `corridor_norm` vacio, `text_osm_resolution = UNRESOLVED`, y segmento OSM inmediato sin `name` ni `ref`.
+
+1. Resultado de busqueda nearest named OSM
+-----------------------------------------
+            nearest_named_status  count
+RECUPERABLE_NAMED_SEGMENT_<=150M      9
+ RECUPERABLE_NAMED_SEGMENT_<=50M      3
+  POTENCIAL_NAMED_SEGMENT_<=300M      3
+    NO_NAMED_SEGMENT_WITHIN_750M      2
+
+2. Pistas textuales detectadas
+------------------------------
+                       text_clues  count
+           SIN_PISTA_VIAL_TEXTUAL      7
+                 referencia_lugar      6
+                direccion_general      2
+direccion_general;infraestructura      1
+ referencia_lugar;infraestructura      1
+
+3. Casos con candidato OSM nombrado mas cercano
+-----------------------------------------------
+  ticketNumber department_norm   municipality_norm                                               address                     candidate_name candidate_ref candidate_highway    candidate_road_type candidate_distance_m             nearest_named_status                        text_clues               severity_class  impact_social_score
+LOCAL-46de457f     LA LIBERTAD         Santa Tecla santa tecla una cuadra adelante del motel jhon junior                   8a Calle Oriente                     residential      LOCAL_RESIDENCIAL                14.15  RECUPERABLE_NAMED_SEGMENT_<=50M                  referencia_lugar TRAFFIC_ACCIDENT_UNSPECIFIED               5.0000
+LOCAL-acdef73b    SAN SALVADOR        San Salvador                  restaurante pampa planes de renderos Carretera a los Planes de Renderos         RN 6S         secondary    ARTERIAL_SECUNDARIA                27.33  RECUPERABLE_NAMED_SEGMENT_<=50M                  referencia_lugar TRAFFIC_ACCIDENT_UNSPECIFIED               0.0000
+LOCAL-908174e9     LA LIBERTAD   Antiguo Cuscatlán                                                                            Avenida Lempa                     residential      LOCAL_RESIDENCIAL                47.14  RECUPERABLE_NAMED_SEGMENT_<=50M            SIN_PISTA_VIAL_TEXTUAL TRAFFIC_ACCIDENT_UNSPECIFIED             197.0000
+LOCAL-a4d28d89       SONSONATE           Sonsonate                      frente a VIDRI, Sonsonate Centro                      Bulevar Vidri                     residential      LOCAL_RESIDENCIAL                 56.0 RECUPERABLE_NAMED_SEGMENT_<=150M  referencia_lugar;infraestructura         MATERIAL_DAMAGE_ONLY               7.6399
+LOCAL-2af933d6    SAN SALVADOR           Soyapango     sentido Soyapango a Apopa llegando a la bodeguita                     Calle El Amate                     residential      LOCAL_RESIDENCIAL                73.65 RECUPERABLE_NAMED_SEGMENT_<=150M                 direccion_general TRAFFIC_ACCIDENT_UNSPECIFIED               0.0000
+LOCAL-18e58c43       CUSCATLÁN   San Rafael Cedros            San Rafael Cedros, subiendo a San Salvador                    Pje. Los Cedros                     residential      LOCAL_RESIDENCIAL                94.41 RECUPERABLE_NAMED_SEGMENT_<=150M                 direccion_general             ROAD_AFFECTATION               6.0000
+LOCAL-05800360       CUSCATLÁN   San Rafael Cedros        vía que conecta San Rafael Cedros con Ilobasco                    Pje. Los Cedros                     residential      LOCAL_RESIDENCIAL                94.41 RECUPERABLE_NAMED_SEGMENT_<=150M direccion_general;infraestructura            FATALITY_REPORTED               5.9026
+LOCAL-141010e2    SAN SALVADOR        San Salvador                                                                           1a Avenida Sur                        tertiary              COLECTORA                96.07 RECUPERABLE_NAMED_SEGMENT_<=150M            SIN_PISTA_VIAL_TEXTUAL TRAFFIC_ACCIDENT_UNSPECIFIED              27.4739
+LOCAL-98d6af05    SAN SALVADOR        San Salvador                                                                           1a Avenida Sur                        tertiary              COLECTORA                96.07 RECUPERABLE_NAMED_SEGMENT_<=150M            SIN_PISTA_VIAL_TEXTUAL TRAFFIC_ACCIDENT_UNSPECIFIED              14.8112
+LOCAL-cdf7256a    SAN SALVADOR        San Salvador                                                                           1a Avenida Sur                        tertiary              COLECTORA                96.07 RECUPERABLE_NAMED_SEGMENT_<=150M            SIN_PISTA_VIAL_TEXTUAL TRAFFIC_ACCIDENT_UNSPECIFIED               8.3852
+LOCAL-be393116     LA LIBERTAD       Quezaltepeque                            Quezaltepeque, La Libertad          Carretera a Quezaltepeque          RN 7             trunk NACIONAL_ESTRUCTURANTE               119.39 RECUPERABLE_NAMED_SEGMENT_<=150M            SIN_PISTA_VIAL_TEXTUAL            FATALITY_REPORTED              19.5235
+LOCAL-01b8f737       SANTA ANA           Santa Ana                                                                       35a Calle Poniente                     residential      LOCAL_RESIDENCIAL               128.62 RECUPERABLE_NAMED_SEGMENT_<=150M            SIN_PISTA_VIAL_TEXTUAL TRAFFIC_ACCIDENT_UNSPECIFIED              33.3005
+LOCAL-612cb7dc       CUSCATLÁN San Pedro Perulapán                         centro de San Pedro Perulapán    Carretera a San Pedro Perulapán         CUS 4          tertiary              COLECTORA               152.57   POTENCIAL_NAMED_SEGMENT_<=300M                  referencia_lugar        OTHER_LOW_INFORMATION               2.4849
+LOCAL-09ddeaee    SAN SALVADOR       Cuscatancingo                                       zona de Mariona                     Calle el Cujín        SAL42E       residential      LOCAL_RESIDENCIAL               171.92   POTENCIAL_NAMED_SEGMENT_<=300M                  referencia_lugar TRAFFIC_ACCIDENT_UNSPECIFIED             106.2558
+LOCAL-a212b1b9    SAN SALVADOR       Cuscatancingo                     frente a colegio en Cuscatancingo                     Calle el Cujín        SAL42E       residential      LOCAL_RESIDENCIAL               171.92   POTENCIAL_NAMED_SEGMENT_<=300M                  referencia_lugar TRAFFIC_ACCIDENT_UNSPECIFIED               6.0981
+LOCAL-d2c1bd7b         CABAÑAS            Ilobasco                       caserío Los Hernández, Ilobasco                                                                                                                    NO_NAMED_SEGMENT_WITHIN_750M                  referencia_lugar TRAFFIC_ACCIDENT_UNSPECIFIED              15.2971
+LOCAL-ab0cf1c3       SIN_DEPTO       SIN_MUNICIPIO                                                                                                                                                                          NO_NAMED_SEGMENT_WITHIN_750M            SIN_PISTA_VIAL_TEXTUAL            FATALITY_REPORTED               0.0000
+
+4. Lectura metodologica
+-----------------------
+Si existe una via nombrada dentro de 50 m, se puede considerar recuperable automaticamente con confianza media/alta.
+Entre 50 y 150 m puede ser recuperable, pero conviene revisar coherencia territorial y texto.
+Entre 150 y 300 m debe quedar como baja confianza o revision.
+Mas alla de 300 m no deberia asignarse corredor automaticamente.
+
+5. Recomendacion
+----------------
+Implementar una segunda busqueda `nearest_named_osm_segment` en el pipeline. Esta busqueda no reemplaza al segmento OSM mas cercano; lo complementa cuando el segmento inmediato no tiene `name` ni `ref`.

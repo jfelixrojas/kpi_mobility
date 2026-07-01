@@ -1,0 +1,373 @@
+RESULTADOS - ANALISIS DE INCIDENTES VIALES
+===========================================
+
+Generado: 2026-06-30T17:15:00
+Datos fuente: /Users/josefelix/Desktop/DEVCODES/Data/News/incidentes.csv
+
+1. Enfoque metodologico
+-----------------------
+La base principal es incidentes.csv. La unidad principal es el evento vial deduplicado.
+La unidad secundaria es la mencion asociada en evidence y la unidad terciaria es el snapshot de engagement.
+No se excluyen coordenadas fuera de El Salvador ni coordenadas repetidas; se etiquetan como calidad/posible error.
+La salida no es un KPI final. Es una metrica exploratoria de presion socio-vial noticiosa.
+
+2. Resumen general
+------------------
+Eventos deduplicados: 113
+Menciones expandidas: 312
+Snapshots de engagement: 2197
+Periodo observado: 2026-06-27 18:23:51 a 2026-06-30 12:07:28
+Eventos con coordenada dentro de El Salvador: 88 (77.88%)
+Eventos fuera del bbox de El Salvador: 1 (0.88%)
+Eventos sin coordenada: 24 (21.24%)
+Eventos con coordenada repetida: 33 (29.2%)
+Eventos con engagement: 98 (86.73%)
+Eventos OSM con match alto/medio: 83 (73.45%)
+Likes ultimo snapshot: 2185
+Comentarios ultimo snapshot: 62
+Shares/retweets ultimo snapshot: 170
+Quotes ultimo snapshot: 2
+Views ultimo snapshot: 91246
+Impacto crudo ultimo snapshot: 93665
+Impacto social ponderado: 3258.54
+
+3. Diagnostico de integridad
+----------------------------
+metric | value | percent | reading
+--- | --- | --- | ---
+eventos_totales | 113.0 | 100.0 | Unidad principal: evento vial deduplicado.
+menciones_expandidas | 312.0 |  | Unidad secundaria: publicaciones asociadas al evento.
+snapshots_engagement | 2197.0 |  | Capturas temporales de interaccion social.
+eventos_con_lat_lon | 89.0 | 78.76 | Eventos con coordenada cruda en columnas principales.
+eventos_con_lat_lon_dentro_sv_bbox | 88.0 | 77.88 | Puntos dentro del control preliminar de El Salvador.
+eventos_fuera_sv_bbox | 1.0 | 0.88 | Posibles errores de geocodificacion.
+eventos_sin_lat_lon | 24.0 | 21.24 | Eventos que requieren geocodificacion si se desea punto.
+eventos_con_coordenada_repetida | 33.0 | 29.2 | No se eliminan; se analizan como recurrencia o posible punto generico.
+eventos_con_address | 95.0 | 84.07 | Direccion textual disponible.
+eventos_con_municipio | 98.0 | 86.73 | Municipio estructurado disponible.
+eventos_con_departamento | 100.0 | 88.5 | Departamento estructurado disponible.
+eventos_con_contexto_vial_textual | 72.0 | 63.72 | Texto permite extraer via, corredor, km o interseccion.
+eventos_con_engagement | 98.0 | 86.73 | Eventos con likes, shares, views u otra interaccion.
+eventos_con_multiples_menciones | 54.0 | 47.79 | Senal de amplificacion y/o corroboracion.
+eventos_con_mas_de_una_fuente | 28.0 | 24.78 | Corroboracion multifuente.
+eventos_con_osm_alto_medio | 83.0 | 73.45 | Puntos asociados con red OSM departamental, nacional o fallback AMSS a distancia razonable.
+likes_ultimo_snapshot | 2185.0 |  | Likes acumulados usando el ultimo snapshot por mencion.
+comments_ultimo_snapshot | 62.0 |  | Comentarios acumulados usando el ultimo snapshot por mencion.
+shares_ultimo_snapshot | 170.0 |  | Compartidos/retweets acumulados usando el ultimo snapshot por mencion.
+quotes_ultimo_snapshot | 2.0 |  | Citas acumuladas usando el ultimo snapshot por mencion.
+views_ultimo_snapshot | 91246.0 |  | Visualizaciones acumuladas usando el ultimo snapshot por mencion.
+impacto_social_ponderado_total | 3258.5411 |  | Suma del impacto social ponderado para heatmap principal.
+impacto_raw_total | 93665.0 |  | Suma cruda de likes, comentarios, shares, quotes y views.
+
+4. Diagnostico de coordenadas
+-----------------------------
+coordinate_quality_status | events | mentions | impact_social | avg_geo_confidence | percent
+--- | --- | --- | --- | --- | ---
+VALID_POINT | 55 | 130 | 1988.5807 | 0.8154545454545454 | 48.67
+VALID_POINT_REPEATED_COORDINATE | 33 | 116 | 1022.5679 | 0.8227272727272726 | 29.2
+MISSING_POINT | 24 | 39 | 247.3925 | 0.4479166666666667 | 21.24
+OUTSIDE_EL_SALVADOR_BBOX | 1 | 27 | 0.0 | 0.9 | 0.88
+
+5. Ranking territorial por departamento
+---------------------------------------
+department_norm | events | traffic_accidents | mentions | impact_social | severity_sum | valid_points | address_events | avg_metric_score
+--- | --- | --- | --- | --- | --- | --- | --- | ---
+SAN SALVADOR | 30 | 26 | 63 | 804.7124 | 12.43 | 27 | 27 | 49.595666666666666
+LA LIBERTAD | 26 | 25 | 105 | 939.5723 | 12.49 | 21 | 22 | 52.34653846153846
+SONSONATE | 14 | 14 | 52 | 853.337 | 9.54 | 13 | 11 | 55.67428571428571
+SIN_DEPTO | 13 | 12 | 19 | 162.5311 | 5.8100000000000005 | 2 | 6 | 33.05538461538462
+SANTA ANA | 10 | 10 | 21 | 191.9742 | 5.87 | 10 | 9 | 55.501
+CUSCATLÁN | 5 | 2 | 8 | 57.602000000000004 | 2.04 | 4 | 5 | 46.492000000000004
+LA PAZ | 4 | 4 | 13 | 57.7337 | 2.22 | 3 | 4 | 49.43
+SAN MIGUEL | 3 | 2 | 6 | 23.1567 | 0.87 | 1 | 3 | 35.72
+MORAZÁN | 2 | 2 | 3 | 39.9451 | 0.81 | 2 | 2 | 54.504999999999995
+USULUTÁN | 2 | 2 | 7 | 34.7138 | 1.05 | 1 | 2 | 50.825
+CABAÑAS | 2 | 2 | 3 | 17.2971 | 1.44 | 2 | 2 | 53.295
+SAN VICENTE | 1 | 1 | 8 | 69.5958 | 0.37 | 1 | 1 | 64.39
+CHALATENANGO | 1 | 1 | 4 | 6.3699 | 0.37 | 1 | 1 | 60.02
+
+6. Ranking territorial por municipio
+-----------------------------------
+department_norm | municipality_norm | events | mentions | impact_social | severity_sum | valid_points | address_events | avg_metric_score
+--- | --- | --- | --- | --- | --- | --- | --- | ---
+SAN SALVADOR | San Salvador | 15 | 31 | 547.419 | 6.18 | 14 | 12 | 51.477999999999994
+SIN_DEPTO | SIN_MUNICIPIO | 12 | 18 | 142.7002 | 5.49 | 2 | 6 | 32.884166666666665
+SONSONATE | Sonsonate | 9 | 42 | 66.4413 | 5.75 | 9 | 6 | 54.58111111111111
+LA LIBERTAD | Santa Tecla | 9 | 26 | 63.582499999999996 | 3.48 | 7 | 9 | 45.43666666666667
+SANTA ANA | Santa Ana | 7 | 12 | 63.7419 | 3.89 | 7 | 6 | 52.521428571428565
+LA LIBERTAD | Antiguo Cuscatlán | 5 | 17 | 480.97860000000003 | 1.81 | 5 | 3 | 60.852
+CUSCATLÁN | San Rafael Cedros | 3 | 3 | 21.9026 | 1.42 | 2 | 3 | 42.17333333333334
+SONSONATE | Armenia | 2 | 5 | 713.3499 | 2.0 | 2 | 2 | 73.19
+LA LIBERTAD | San Juan Opico | 2 | 7 | 281.2633 | 1.32 | 2 | 2 | 70.17
+SAN SALVADOR | Cuscatancingo | 2 | 10 | 112.3539 | 0.79 | 2 | 2 | 57.36
+LA PAZ | La Paz Centro | 2 | 10 | 48.7337 | 1.26 | 2 | 2 | 58.26
+LA LIBERTAD | Quezaltepeque | 2 | 10 | 47.9363 | 1.95 | 1 | 1 | 63.43
+LA LIBERTAD | Colón | 2 | 7 | 23.093400000000003 | 0.98 | 1 | 2 | 44.660000000000004
+LA LIBERTAD | La Libertad Sur | 2 | 7 | 22.3319 | 0.64 | 2 | 2 | 52.480000000000004
+CABAÑAS | Ilobasco | 2 | 3 | 17.2971 | 1.44 | 2 | 2 | 53.295
+SAN MIGUEL | San Miguel | 2 | 5 | 11.4708 | 0.55 | 1 | 2 | 36.925
+SAN SALVADOR | SIN_MUNICIPIO | 2 | 2 | 10.8711 | 0.29000000000000004 | 0 | 2 | 22.755000000000003
+SAN SALVADOR | Los Planes de Renderos | 2 | 2 | 6.0 | 0.9 | 2 | 2 | 44.349999999999994
+SAN SALVADOR | Soyapango | 2 | 2 | 1.0 | 0.55 | 2 | 2 | 38.2
+SAN VICENTE | San Vicente Norte | 1 | 8 | 69.5958 | 0.37 | 1 | 1 | 64.39
+
+7. Diagnostico de normalizacion territorial
+-------------------------------------------
+Los valores originales de departamento y municipio se conservan, pero los rankings se calculan con campos normalizados.
+Esto evita separar artificialmente valores como SAN SALVADOR y San Salvador, o CUSCATLAN y CUSCATLÁN.
+department_raw | department_norm | municipality_raw | municipality_norm | territory_normalization_status | events | mentions | impact_social
+--- | --- | --- | --- | --- | --- | --- | ---
+SIN_DEPTO | SIN_DEPTO | SIN_MUNICIPIO | SIN_MUNICIPIO | NO_TERRITORY_FIELDS | 12 | 18 | 142.7002
+SAN SALVADOR | SAN SALVADOR | San Salvador | San Salvador | DEPARTMENT_AND_MUNICIPALITY | 8 | 20 | 363.50509999999997
+SONSONATE | SONSONATE | Sonsonate | Sonsonate | DEPARTMENT_AND_MUNICIPALITY | 8 | 41 | 52.4413
+SAN SALVADOR | SAN SALVADOR | SAN SALVADOR | San Salvador | DEPARTMENT_AND_MUNICIPALITY | 7 | 11 | 183.9139
+LA LIBERTAD | LA LIBERTAD | Santa Tecla | Santa Tecla | DEPARTMENT_AND_MUNICIPALITY | 6 | 17 | 48.92959999999999
+SANTA ANA | SANTA ANA | SANTA ANA | Santa Ana | DEPARTMENT_AND_MUNICIPALITY | 5 | 9 | 61.0488
+LA LIBERTAD | LA LIBERTAD | Antiguo Cuscatlán | Antiguo Cuscatlán | DEPARTMENT_AND_MUNICIPALITY | 4 | 14 | 459.7422
+LA LIBERTAD | LA LIBERTAD | SANTA TECLA | Santa Tecla | DEPARTMENT_AND_MUNICIPALITY | 3 | 9 | 14.652899999999999
+LA LIBERTAD | LA LIBERTAD | San Juan Opico | San Juan Opico | DEPARTMENT_AND_MUNICIPALITY | 2 | 7 | 281.2633
+SAN SALVADOR | SAN SALVADOR | Cuscatancingo | Cuscatancingo | DEPARTMENT_AND_MUNICIPALITY | 2 | 10 | 112.3539
+LA PAZ | LA PAZ | LA PAZ CENTRO | La Paz Centro | DEPARTMENT_AND_MUNICIPALITY | 2 | 10 | 48.7337
+LA LIBERTAD | LA LIBERTAD | Quezaltepeque | Quezaltepeque | DEPARTMENT_AND_MUNICIPALITY | 2 | 10 | 47.9363
+LA LIBERTAD | LA LIBERTAD | Colón | Colón | DEPARTMENT_AND_MUNICIPALITY | 2 | 7 | 23.093400000000003
+LA LIBERTAD | LA LIBERTAD | LA LIBERTAD SUR | La Libertad Sur | DEPARTMENT_AND_MUNICIPALITY | 2 | 7 | 22.3319
+CABANAS | CABAÑAS | Ilobasco | Ilobasco | DEPARTMENT_AND_MUNICIPALITY | 2 | 3 | 17.2971
+CUSCATLAN | CUSCATLÁN | SAN RAFAEL CEDROS | San Rafael Cedros | DEPARTMENT_AND_MUNICIPALITY | 2 | 2 | 16.0
+SAN MIGUEL | SAN MIGUEL | SAN MIGUEL | San Miguel | DEPARTMENT_AND_MUNICIPALITY | 2 | 5 | 11.4708
+SAN SALVADOR | SAN SALVADOR | SIN_MUNICIPIO | SIN_MUNICIPIO | DEPARTMENT_ONLY | 2 | 2 | 10.8711
+SAN SALVADOR | SAN SALVADOR | Los Planes de Renderos | Los Planes de Renderos | DEPARTMENT_AND_MUNICIPALITY | 2 | 2 | 6.0
+SANTA ANA | SANTA ANA | Santa Ana | Santa Ana | DEPARTMENT_AND_MUNICIPALITY | 2 | 3 | 2.6931000000000003
+
+8. Diagnostico de corredores
+----------------------------
+La variable corridor_candidate se extrae de address y observation. Representa la via, carretera, bulevar, avenida, calle o tramo mencionado en el texto.
+No reemplaza el match espacial OSM: sirve como lectura semantica del evento y como puente para rankings por corredor.
+metric | value | percent | reading
+--- | --- | --- | ---
+eventos_con_corredor_textual | 71.0 | 62.83 | Eventos donde address/observation permitieron extraer un corredor o via textual.
+corredores_distintos_extraidos | 43.0 |  | Cantidad de nombres de corredores/vias candidatos despues de limpieza textual.
+eventos_con_corredor_norm | 81.0 | 71.68 | Eventos con corredor funcional normalizado despues de resolver texto y OSM.
+corredores_norm_distintos | 46.0 |  | Cantidad de corredores funcionales consolidados.
+eventos_con_corredor_y_coordenada_valida | 58.0 | 81.69 | Eventos con corredor textual y punto util dentro de El Salvador.
+eventos_con_corredor_en_bbox_amss | 31.0 | 43.66 | Eventos con corredor textual dentro del bbox AMSS; se conserva como zoom capitalino, no como unico alcance OSM.
+eventos_con_corredor_y_osm_alto_medio | 56.0 | 78.87 | Eventos de corredor que tambien tienen asociacion espacial razonable con OSM.
+impacto_social_en_corredores | 2566.9688 | 78.78 | Porcentaje del impacto social total concentrado en eventos con corredor textual.
+
+9. Ranking de corredores extraidos del texto
+--------------------------------------------
+corridor_candidate | events | mentions | impact_social | severity_sum | valid_points | fatality_events | injury_events | vulnerable_events | avg_metric_score
+--- | --- | --- | --- | --- | --- | --- | --- | --- | ---
+carretera panamericana | 14 | 39 | 407.4504 | 5.25 | 12 | 0 | 3 | 1 | 50.62785714285714
+carretera a sonsonate | 4 | 10 | 39.4794 | 3.6500000000000004 | 4 | 3 | 1 | 3 | 61.4025
+carretera al puerto de la libertad | 4 | 17 | 36.471000000000004 | 1.3900000000000001 | 4 | 0 | 0 | 0 | 52.6875
+autopista a comalapa | 3 | 6 | 45.517399999999995 | 1.23 | 2 | 0 | 1 | 0 | 45.52
+boulevard constitucion | 3 | 29 | 25.5425 | 1.25 | 2 | 0 | 1 | 0 | 44.61333333333334
+paseo general escalon | 2 | 11 | 278.9268 | 0.98 | 2 | 0 | 1 | 0 | 67.09
+calle a mariona | 2 | 4 | 117.5171 | 1.22 | 2 | 0 | 1 | 2 | 59.22
+avenida bernal | 2 | 8 | 71.0778 | 1.27 | 1 | 0 | 2 | 2 | 56.91
+carretera troncal del norte | 2 | 5 | 6.3699 | 0.92 | 2 | 0 | 1 | 0 | 52.075
+tramo los chorros | 2 | 3 | 3.0 | 0.77 | 1 | 0 | 0 | 0 | 36.94
+carretera a armenia | 1 | 4 | 710.3499 | 1.0 | 1 | 1 | 0 | 1 | 89.98
+calle de tacachico a san juan opico | 1 | 1 | 163.0 | 0.32 | 1 | 0 | 0 | 0 | 57.37
+carretera de quezaltepeque a san juan opico | 1 | 6 | 118.2633 | 1.0 | 1 | 1 | 0 | 1 | 82.97
+carretera de san salvador a sonsonate altura de piedras pachas | 1 | 4 | 67.9789 | 0.96 | 1 | 1 | 1 | 0 | 74.51
+carretera de santa ana a sonsonate tramo de los naranjos | 1 | 3 | 67.5458 | 0.48 | 1 | 0 | 0 | 1 | 62.36
+carretera antigua a nejapa | 1 | 3 | 55.6094 | 0.76 | 1 | 0 | 1 | 0 | 73.61
+carretera antigua a zacatecoluca | 1 | 7 | 48.7337 | 0.71 | 1 | 0 | 1 | 1 | 74.74
+carretera a candelaria de la frontera | 1 | 2 | 38.8675 | 0.32 | 1 | 0 | 0 | 0 | 56.27
+carretera de oro | 1 | 4 | 35.079 | 0.65 | 0 | 0 | 1 | 0 | 45.76
+carretera a san jose guayabal san martin un | 1 | 4 | 33.2145 | 0.5 | 1 | 0 | 1 | 0 | 65.58
+
+10. Analisis de corredores criticos
+----------------------------------
+El puntaje de criticidad de corredor combina volumen de eventos, menciones, impacto social, severidad, fallecidos, lesionados, usuarios vulnerables y asociacion OSM alta/media.
+Este puntaje no es KPI final; es una metrica de priorizacion exploratoria para decidir que corredores merecen revision detallada.
+corridor_norm | events | mentions | source_diversity_max | impact_social | avg_impact_social | severity_sum | avg_severity | fatality_events | injury_events | vulnerable_events | heavy_vehicle_events | valid_points | repeated_coordinate_events | amss_points | osm_high_medium | avg_osm_distance_m | avg_metric_score | first_event | last_event | departments | municipalities | road_type_candidate | corridor_candidates | compatible_events | review_events | corridor_criticality_score
+--- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | ---
+Carretera Panamericana | 18 | 46 | 3 | 442.7074 | 24.594855555555554 | 6.84 | 0.38 | 0 | 4 | 1 | 5 | 14 | 1 | 10 | 13 | 59.410714285714285 | 48.24888888888889 | 2026-06-27 21:30:38 | 2026-06-30 09:00:05 | LA LIBERTAD; SAN SALVADOR; SAN VICENTE; SANTA ANA; SIN_DEPTO | Antiguo Cuscatlán; Ciudad Arce; Ciudad Delgado; Colón; Ilopango; La Libertad Centro; SIN_MUNICIPIO; San Salvador Este; San Vicente Norte; Santa Ana; Santa Tecla | ARTERIAL_O_COLECTORA_URBANA; ARTERIAL_URBANA; NACIONAL_ESTRUCTURANTE; NO_CLASIFICADA | bulevar del ejercito; carretera de santa ana a san salvador; carretera panamericana; tramo los chorros | 7 | 2 | 79.88
+Carretera A Sonsonate | 4 | 10 | 2 | 39.4794 | 9.86985 | 3.6500000000000004 | 0.9125000000000001 | 3 | 1 | 3 | 2 | 4 | 3 | 0 | 3 | 7.19 | 61.4025 | 2026-06-28 21:00:00 | 2026-06-30 09:08:43 | LA LIBERTAD; SONSONATE | Colón; Izalco; Sonsonate | NACIONAL_ESTRUCTURANTE | carretera a sonsonate | 2 | 0 | 36.05
+Avenida Oidor Pedro Ramirez de Quinonez | 3 | 29 | 1 | 14.0 | 4.666666666666667 | 2.37 | 0.79 | 1 | 2 | 1 | 1 | 3 | 3 | 0 | 3 | 2.26 | 56.32333333333333 | 2026-06-28 11:13:00 | 2026-06-29 20:48:00 | SONSONATE | Sonsonate | NO_CLASIFICADA |  | 3 | 0 | 28.61
+Carretera A Armenia | 1 | 4 | 3 | 710.3499 | 710.3499 | 1.0 | 1.0 | 1 | 0 | 1 | 1 | 1 | 0 | 0 | 1 | 14.56 | 89.98 | 2026-06-29 17:01:46 | 2026-06-29 17:01:46 | SONSONATE | Armenia | NACIONAL_ESTRUCTURANTE | carretera a armenia | 1 | 0 | 28.35
+Carretera Quezaltepeque - San Juan Opico | 2 | 7 | 3 | 281.2633 | 140.63165 | 1.32 | 0.66 | 1 | 0 | 1 | 0 | 2 | 2 | 2 | 2 | 5.68 | 70.17 | 2026-06-29 10:59:38 | 2026-06-29 21:27:25 | LA LIBERTAD | San Juan Opico | LOCAL_O_COLECTORA_URBANA; NACIONAL_ESTRUCTURANTE | calle de tacachico a san juan opico; carretera de quezaltepeque a san juan opico | 2 | 0 | 20.94
+Carretera al Puerto de La Libertad | 5 | 21 | 3 | 43.8862 | 8.77724 | 1.6400000000000001 | 0.328 | 0 | 0 | 0 | 2 | 5 | 4 | 4 | 5 | 7.052000000000001 | 51.562 | 2026-06-27 22:56:34 | 2026-06-29 02:00:00 | LA LIBERTAD | La Libertad; La Libertad Sur; Santa Tecla | NACIONAL_ESTRUCTURANTE | carretera al puerto de la libertad; carretera que conduce del puerto de la libertad | 5 | 0 | 20.31
+Boulevard Constitucion | 3 | 29 | 1 | 25.5425 | 8.514166666666666 | 1.25 | 0.4166666666666667 | 0 | 1 | 0 | 1 | 2 | 0 | 2 | 2 | 2.45 | 44.61333333333334 | 2026-06-28 08:42:23 | 2026-06-29 17:28:08 | LA LIBERTAD; SAN SALVADOR | El Barillo; San Salvador | ARTERIAL_URBANA | boulevard constitucion | 2 | 0 | 19.07
+Paseo General Escalón | 2 | 11 | 3 | 278.9268 | 139.4634 | 0.98 | 0.49 | 0 | 1 | 0 | 0 | 2 | 2 | 2 | 2 | 2.02 | 67.09 | 2026-06-29 11:56:08 | 2026-06-29 14:06:20 | SAN SALVADOR | San Salvador | ARTERIAL_URBANA | paseo general escalon | 2 | 0 | 18.05
+Avenida Bernal | 2 | 8 | 2 | 71.0778 | 35.5389 | 1.27 | 0.635 | 0 | 2 | 2 | 0 | 1 | 0 | 1 | 1 | 1.56 | 56.91 | 2026-06-28 18:01:27 | 2026-06-30 08:31:36 | SAN SALVADOR; SIN_DEPTO | SIN_MUNICIPIO; San Salvador Centro | ARTERIAL_O_COLECTORA_URBANA | avenida bernal | 1 | 0 | 17.17
+Calle A Mariona | 2 | 4 | 2 | 117.5171 | 58.75855 | 1.22 | 0.61 | 0 | 1 | 2 | 0 | 2 | 2 | 2 | 2 | 6.28 | 59.22 | 2026-06-29 08:58:40 | 2026-06-29 15:50:15 | SAN SALVADOR | San Salvador | LOCAL_O_COLECTORA_URBANA | calle a mariona | 2 | 0 | 15.72
+Autopista a Comalapa | 3 | 6 | 3 | 45.517399999999995 | 15.172466666666665 | 1.23 | 0.41 | 0 | 1 | 0 | 1 | 2 | 0 | 2 | 2 | 11.555 | 45.52 | 2026-06-27 18:58:28 | 2026-06-28 22:14:47 | SAN SALVADOR | SIN_MUNICIPIO; San Salvador | NACIONAL_ESTRUCTURANTE | autopista a comalapa | 1 | 0 | 12.53
+Carretera de San Salvador A Sonsonate Altura de Piedras Pachas | 1 | 4 | 2 | 67.9789 | 67.9789 | 0.96 | 0.96 | 1 | 1 | 0 | 0 | 1 | 0 | 0 | 1 | 0.58 | 74.51 | 2026-06-28 09:42:44 | 2026-06-28 09:42:44 | SANTA ANA | Santa Ana Centro | NACIONAL_ESTRUCTURANTE | carretera de san salvador a sonsonate altura de piedras pachas | 1 | 0 | 12.06
+Carretera A Ilobasco Cabanas | 1 | 1 | 1 | 2.0 | 2.0 | 1.0 | 1.0 | 1 | 1 | 1 | 1 | 1 | 0 | 0 | 1 | 1.78 | 56.07 | 2026-06-28 06:00:00 | 2026-06-28 06:00:00 | CABAÑAS | Ilobasco | NACIONAL_ESTRUCTURANTE | carretera a ilobasco cabanas | 1 | 0 | 11.24
+Carretera Antigua A Zacatecoluca | 1 | 7 | 2 | 48.7337 | 48.7337 | 0.71 | 0.71 | 0 | 1 | 1 | 0 | 1 | 0 | 0 | 1 | 3.63 | 74.74 | 2026-06-30 06:15:00 | 2026-06-30 06:15:00 | LA PAZ | La Paz Centro | NACIONAL_ESTRUCTURANTE | carretera antigua a zacatecoluca | 1 | 0 | 10.24
+1a Avenida Sur | 1 | 2 | 1 | 18.0 | 18.0 | 1.0 | 1.0 | 1 | 0 | 1 | 0 | 1 | 0 | 0 | 1 | 31.87 | 64.47 | 2026-06-28 09:00:00 | 2026-06-28 09:00:00 | LA LIBERTAD | San Pablo Tacachico | NO_CLASIFICADA |  | 1 | 0 | 10.2
+Calle los Naranjos | 1 | 1 | 1 | 9.0 | 9.0 | 1.0 | 1.0 | 1 | 0 | 1 | 1 | 1 | 0 | 0 | 1 | 2.78 | 61.93 | 2026-06-29 02:00:00 | 2026-06-29 02:00:00 | SANTA ANA | Santa Ana | LOCAL_O_COLECTORA_URBANA | calle los naranjos | 0 | 0 | 9.67
+Ruta 205 | 1 | 1 | 1 | 3.0 | 3.0 | 1.0 | 1.0 | 1 | 0 | 1 | 1 | 1 | 0 | 0 | 1 | 7.72 | 56.4 | 2026-06-27 23:02:54 | 2026-06-27 23:02:54 | SONSONATE | Armenia | NACIONAL_ESTRUCTURANTE | ruta 205 | 0 | 1 | 9.51
+Carretera Troncal del Norte | 2 | 5 | 3 | 6.3699 | 3.18495 | 0.92 | 0.46 | 0 | 1 | 0 | 2 | 2 | 0 | 0 | 2 | 2.5300000000000002 | 52.075 | 2026-06-28 14:10:09 | 2026-06-28 18:30:48 | CHALATENANGO; SIN_DEPTO | Chalatenango; SIN_MUNICIPIO | NACIONAL_ESTRUCTURANTE | carretera troncal del norte | 2 | 0 | 9.17
+2a Avenida Sur | 1 | 2 | 1 | 16.0596 | 16.0596 | 0.61 | 0.61 | 0 | 1 | 1 | 0 | 1 | 0 | 0 | 1 | 5.15 | 58.66 | 2026-06-29 10:46:18 | 2026-06-29 10:46:18 | MORAZÁN | San Francisco Gotera | NO_CLASIFICADA |  | 1 | 0 | 7.65
+Carretera Antigua A Nejapa | 1 | 3 | 3 | 55.6094 | 55.6094 | 0.76 | 0.76 | 0 | 1 | 0 | 1 | 1 | 0 | 1 | 1 | 17.69 | 73.61 | 2026-06-28 18:54:13 | 2026-06-28 18:54:13 | SAN SALVADOR | Nejapa | NACIONAL_ESTRUCTURANTE | carretera antigua a nejapa | 0 | 1 | 7.64
+
+11. Ranking por corredor normalizado
+-----------------------------------
+corridor_norm representa el corredor funcional consolidado. nearest_osm_name conserva el segmento local OSM y corridor_candidate conserva el texto extraido de la noticia.
+corridor_norm | events | mentions | impact_social | severity_sum | valid_points | fatality_events | injury_events | vulnerable_events | osm_high_medium | compatible_events | review_events | corridor_candidates | avg_metric_score
+--- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | ---
+Carretera Panamericana | 18 | 46 | 442.7074 | 6.84 | 14 | 0 | 4 | 1 | 13 | 7 | 2 | bulevar del ejercito; carretera de santa ana a san salvador; carretera panamericana; tramo los chorros | 48.24888888888889
+Carretera al Puerto de La Libertad | 5 | 21 | 43.8862 | 1.6400000000000001 | 5 | 0 | 0 | 0 | 5 | 5 | 0 | carretera al puerto de la libertad; carretera que conduce del puerto de la libertad | 51.562
+Carretera A Sonsonate | 4 | 10 | 39.4794 | 3.6500000000000004 | 4 | 3 | 1 | 3 | 3 | 2 | 0 | carretera a sonsonate | 61.4025
+Autopista a Comalapa | 3 | 6 | 45.517399999999995 | 1.23 | 2 | 0 | 1 | 0 | 2 | 1 | 0 | autopista a comalapa | 45.52
+Boulevard Constitucion | 3 | 29 | 25.5425 | 1.25 | 2 | 0 | 1 | 0 | 2 | 2 | 0 | boulevard constitucion | 44.61333333333334
+Avenida Oidor Pedro Ramirez de Quinonez | 3 | 29 | 14.0 | 2.37 | 3 | 1 | 2 | 1 | 3 | 3 | 0 |  | 56.32333333333333
+Carretera Quezaltepeque - San Juan Opico | 2 | 7 | 281.2633 | 1.32 | 2 | 1 | 0 | 1 | 2 | 2 | 0 | calle de tacachico a san juan opico; carretera de quezaltepeque a san juan opico | 70.17
+Paseo General Escalón | 2 | 11 | 278.9268 | 0.98 | 2 | 0 | 1 | 0 | 2 | 2 | 0 | paseo general escalon | 67.09
+Calle A Mariona | 2 | 4 | 117.5171 | 1.22 | 2 | 0 | 1 | 2 | 2 | 2 | 0 | calle a mariona | 59.22
+Avenida Bernal | 2 | 8 | 71.0778 | 1.27 | 1 | 0 | 2 | 2 | 1 | 1 | 0 | avenida bernal | 56.91
+Carretera Troncal del Norte | 2 | 5 | 6.3699 | 0.92 | 2 | 0 | 1 | 0 | 2 | 2 | 0 | carretera troncal del norte | 52.075
+Carretera A Armenia | 1 | 4 | 710.3499 | 1.0 | 1 | 1 | 0 | 1 | 1 | 1 | 0 | carretera a armenia | 89.98
+Carretera de San Salvador A Sonsonate Altura de Piedras Pachas | 1 | 4 | 67.9789 | 0.96 | 1 | 1 | 1 | 0 | 1 | 1 | 0 | carretera de san salvador a sonsonate altura de piedras pachas | 74.51
+Carretera de Santa Ana A Sonsonate Tramo de los Naranjos | 1 | 3 | 67.5458 | 0.48 | 1 | 0 | 0 | 1 | 1 | 1 | 0 | carretera de santa ana a sonsonate tramo de los naranjos | 62.36
+Carretera Antigua A Nejapa | 1 | 3 | 55.6094 | 0.76 | 1 | 0 | 1 | 0 | 1 | 0 | 1 | carretera antigua a nejapa | 73.61
+Carretera Antigua A Zacatecoluca | 1 | 7 | 48.7337 | 0.71 | 1 | 0 | 1 | 1 | 1 | 1 | 0 | carretera antigua a zacatecoluca | 74.74
+Carretera A Candelaria de la Frontera | 1 | 2 | 38.8675 | 0.32 | 1 | 0 | 0 | 0 | 1 | 0 | 1 | carretera a candelaria de la frontera | 56.27
+Carretera de Oro | 1 | 4 | 35.079 | 0.65 | 0 | 0 | 1 | 0 | 0 | 0 | 0 | carretera de oro | 45.76
+Carretera A San Jose Guayabal San Martin Un | 1 | 4 | 33.2145 | 0.5 | 1 | 0 | 1 | 0 | 1 | 0 | 1 | carretera a san jose guayabal san martin un | 65.58
+Avenida Jerusalen | 1 | 1 | 29.2449 | 0.38 | 1 | 0 | 0 | 0 | 1 | 1 | 0 | avenida jerusalen | 54.8
+
+12. Resolucion texto-OSM y corridor_norm
+----------------------------------------
+Los conflictos texto-OSM no se eliminan: se clasifican como compatibles, nombre local dentro de corredor, interseccion aceptada o revision.
+text_osm_resolution | events
+--- | ---
+UNRESOLVED | 57
+COMPATIBLE | 25
+INTERSECTION_ACCEPTED | 12
+REVIEW_COORDINATE_OR_NAME | 10
+LOCAL_NAME_WITHIN_CORRIDOR | 9
+
+Conflictos texto-OSM reclasificados
+-----------------------------------
+text_osm_resolution | events
+--- | ---
+UNRESOLVED | 11
+INTERSECTION_ACCEPTED | 10
+REVIEW_COORDINATE_OR_NAME | 8
+COMPATIBLE | 6
+LOCAL_NAME_WITHIN_CORRIDOR | 6
+
+13. Serie diaria
+----------------
+event_date | events | traffic_accidents | mentions | impact_social | views | shares | valid_points | avg_metric_score
+--- | --- | --- | --- | --- | --- | --- | --- | ---
+2026-06-27 | 14 | 11 | 30 | 23.1391 | 3425.0 | 0.0 | 6 | 34.075
+2026-06-28 | 36 | 32 | 66 | 410.6244 | 13149.0 | 21.0 | 33 | 49.44916666666667
+2026-06-29 | 50 | 49 | 182 | 2414.1288 | 62034.0 | 130.0 | 45 | 55.1228
+2026-06-30 | 13 | 11 | 34 | 410.6488 | 12638.0 | 19.0 | 4 | 44.51461538461539
+
+14. Serie horaria
+-----------------
+event_hour | events | mentions | impact_social | views | shares | avg_metric_score
+--- | --- | --- | --- | --- | --- | ---
+0.0 | 2.0 | 2.0 | 6.0981 | 444.0 | 0.0 | 42.7
+1.0 | 1.0 | 1.0 | 10.0 | 0.0 | 0.0 | 29.28
+2.0 | 2.0 | 2.0 | 10.0 | 0.0 | 0.0 | 53.035
+5.0 | 2.0 | 6.0 | 22.2151 | 1926.0 | 1.0 | 41.1
+6.0 | 11.0 | 22.0 | 295.417 | 4777.0 | 8.0 | 49.907272727272726
+7.0 | 4.0 | 8.0 | 43.1708 | 1538.0 | 1.0 | 49.38
+8.0 | 11.0 | 32.0 | 174.6625 | 12209.0 | 16.0 | 49.811818181818175
+9.0 | 8.0 | 18.0 | 124.50829999999999 | 3237.0 | 16.0 | 49.685
+10.0 | 8.0 | 23.0 | 205.6538 | 9117.0 | 13.0 | 49.32375
+11.0 | 7.0 | 26.0 | 384.4738 | 10870.0 | 22.0 | 54.86714285714286
+12.0 | 3.0 | 3.0 | 14.4451 | 1058.0 | 0.0 | 42.73333333333333
+13.0 | 1.0 | 3.0 | 67.5458 | 5144.0 | 4.0 | 62.36
+14.0 | 3.0 | 9.0 | 56.651700000000005 | 3055.0 | 7.0 | 54.81
+15.0 | 4.0 | 8.0 | 145.7015 | 5373.0 | 18.0 | 57.9625
+16.0 | 5.0 | 14.0 | 133.4633 | 8018.0 | 13.0 | 56.220000000000006
+17.0 | 4.0 | 33.0 | 736.2354 | 2532.0 | 21.0 | 56.4125
+18.0 | 9.0 | 26.0 | 139.524 | 5259.0 | 5.0 | 47.22777777777778
+19.0 | 6.0 | 15.0 | 117.0998 | 6757.0 | 11.0 | 49.86333333333334
+20.0 | 5.0 | 31.0 | 287.91970000000003 | 2506.0 | 11.0 | 47.096000000000004
+21.0 | 9.0 | 10.0 | 195.5377 | 655.0 | 1.0 | 43.01
+22.0 | 7.0 | 19.0 | 85.2177 | 6771.0 | 2.0 | 45.962857142857146
+23.0 | 1.0 | 1.0 | 3.0 | 0.0 | 0.0 | 56.4
+
+15. Top eventos por impacto social
+----------------------------------
+ticketNumber | datetime | incident | department | municipality | mentions | latest_views | latest_shares | impact_social_score | coordinate_quality_status | osm_match_status
+--- | --- | --- | --- | --- | --- | --- | --- | --- | --- | ---
+LOCAL-a8b9cd11 | 2026-06-29 17:01:46 | TRAFFIC_ACCIDENT | SONSONATE | ARMENIA | 4 | 1555.0 | 19.0 | 710.3499 | VALID_POINT | SPATIAL_OSM_HIGH
+LOCAL-c068bcaf | 2026-06-29 11:56:08 | TRAFFIC_ACCIDENT | SAN SALVADOR | San Salvador | 7 | 4863.0 | 5.0 | 255.4896 | VALID_POINT_REPEATED_COORDINATE | SPATIAL_OSM_HIGH
+LOCAL-df23fb36 | 2026-06-29 20:27:40 | TRAFFIC_ACCIDENT | LA LIBERTAD | Antiguo Cuscatlán | 2 | 0.0 | 7.0 | 204.0 | VALID_POINT | SPATIAL_OSM_HIGH
+LOCAL-908174e9 | 2026-06-30 06:00:00 | TRAFFIC_ACCIDENT | LA LIBERTAD | Antiguo Cuscatlán | 1 | 0.0 | 0.0 | 197.0 | VALID_POINT | SPATIAL_OSM_HIGH
+LOCAL-51669153 | 2026-06-29 21:27:25 | TRAFFIC_ACCIDENT | LA LIBERTAD | San Juan Opico | 1 | 0.0 | 0.0 | 163.0 | VALID_POINT_REPEATED_COORDINATE | SPATIAL_OSM_HIGH
+LOCAL-7a4a5b14 | 2026-06-29 10:59:38 | TRAFFIC_ACCIDENT | LA LIBERTAD | San Juan Opico | 6 | 1426.0 | 7.0 | 118.2633 | VALID_POINT_REPEATED_COORDINATE | SPATIAL_OSM_HIGH
+LOCAL-abf701ec | 2026-06-29 15:50:15 | TRAFFIC_ACCIDENT | SAN SALVADOR | SAN SALVADOR | 3 | 4781.0 | 16.0 | 114.4726 | VALID_POINT_REPEATED_COORDINATE | SPATIAL_OSM_HIGH
+LOCAL-09ddeaee | 2026-06-29 11:49:02 | TRAFFIC_ACCIDENT | SAN SALVADOR | Cuscatancingo | 9 | 3849.0 | 17.0 | 106.2558 | VALID_POINT_REPEATED_COORDINATE | SPATIAL_OSM_HIGH
+LOCAL-93d2c0be | 2026-06-29 16:10:05 | TRAFFIC_ACCIDENT | SAN VICENTE | SAN VICENTE NORTE | 8 | 5408.0 | 10.0 | 69.5958 | VALID_POINT | SPATIAL_OSM_HIGH
+LOCAL-d93e412c | 2026-06-29 20:32:10 | TRAFFIC_ACCIDENT |  |  | 1 | 2332.0 | 4.0 | 68.7549 | MISSING_POINT | NO_COORDINATE_FOR_OSM
+
+16. Capa vial base OSM San Salvador/AMSS
+----------------------------------------
+La capa vial AMSS se conserva como capa visual capitalina y respaldo local. Esta almacenada en:
+/Users/josefelix/Desktop/DEVCODES/Data/Processed/osm_roads_san_salvador/osm_road_segments.csv
+La asociacion analitica evento-via ya no depende solo de esta capa: si existe red departamental, el evento usa primero su departamento; si no, usa red nacional; y como ultimo respaldo puede usar AMSS.
+Las capas OSM contienen atributos como highway, name, ref, oneway, lanes, maxspeed, surface y longitud.
+highway | segmentos | km | vias_con_nombre | vias_oneway | carriles_promedio | velocidad_promedio
+--- | --- | --- | --- | --- | --- | ---
+residential | 8313 | 1398.64315 | 8298 | 875 | 1.9398496240601504 | 39.190031152647975
+tertiary | 1484 | 596.46839 | 1377 | 530 | 2.1341743119266057 | 45.53617810760668
+trunk | 533 | 391.40698 | 513 | 483 | 2.2620423892100194 | 64.3762781186094
+secondary | 956 | 338.87839 | 932 | 558 | 2.2701664532650447 | 55.293072824156305
+unclassified | 327 | 289.36553 | 248 | 22 | 1.956140350877193 | 43.1578947368421
+living_street | 1487 | 140.79657 | 1487 | 56 | 1.675 | 16.973684210526315
+primary | 475 | 126.85535 | 469 | 406 | 2.232142857142857 | 59.32795698924731
+service | 384 | 50.09047 | 384 | 45 | 2.0 | 25.75
+trunk_link | 8 | 1.43742 | 8 | 8 | 1.375 | 51.42857142857143
+tertiary_link | 6 | 0.25972 | 5 | 5 | 1.5 | 60.0
+
+17. Cobertura OSM departamental/nacional
+----------------------------------------
+La red OSM se descargo y particiono por departamento para evitar cargar innecesariamente una red nacional completa en cada analisis interactivo.
+El consolidado nacional queda como producto analitico y fallback para eventos sin red departamental disponible.
+department | slug | status | query_mode | segments | catalog_roads | length_km | message
+--- | --- | --- | --- | --- | --- | --- | ---
+AHUACHAPAN | ahuachapan | OK | AREA | 5296 | 4484 | 2367.094 | 
+CABAÑAS | cabanas | OK | AREA | 2168 | 1764 | 1235.662 | 
+CHALATENANGO | chalatenango | OK | AREA | 3974 | 3271 | 2303.235 | 
+CUSCATLÁN | cuscatlan | OK | BBOX | 9110 | 7280 | 3261.646 | 
+LA LIBERTAD | la_libertad | OK | AREA | 16308 | 12756 | 4127.487 | 
+LA PAZ | la_paz | OK | AREA | 5195 | 4408 | 2118.056 | 
+LA UNION | la_union | OK | AREA | 4808 | 4132 | 2782.474 | 
+MORAZÁN | morazan | OK | AREA | 3055 | 2567 | 1991.577 | 
+SAN MIGUEL | san_miguel | OK | AREA | 9101 | 7303 | 3820.706 | 
+SAN SALVADOR | san_salvador | OK | AREA | 22899 | 16261 | 4105.946 | 
+SAN VICENTE | san_vicente | OK | AREA | 2385 | 1903 | 1158.036 | 
+SANTA ANA | santa_ana | OK | AREA | 11588 | 8944 | 3858.915 | 
+SONSONATE | sonsonate | OK | AREA | 8142 | 6570 | 2750.714 | 
+USULUTÁN | usulutan | OK | AREA | 5192 | 4319 | 2438.85 | 
+
+18. Lectura OSM evento-via
+--------------------------
+La coordenada es la fuente principal de asociacion evento-via. Con coordenada valida, se busca el segmento OSM mas cercano usando primero la red del departamento normalizado, luego la red nacional y finalmente AMSS si aplica.
+Si no hay coordenada, no se fuerza un match espacial: queda NO_COORDINATE_FOR_OSM y la noticia solo aporta texto, territorio y engagement.
+osm_match_status | events
+--- | ---
+SPATIAL_OSM_HIGH | 77
+NO_COORDINATE_FOR_OSM | 24
+SPATIAL_OSM_MEDIUM | 6
+SPATIAL_OSM_DISTANCE_CONFLICT | 2
+SPATIAL_OSM_LOW_REVIEW | 2
+NO_NEAR_OSM_SEGMENT | 1
+INVALID_POINT_FOR_OSM | 1
+
+19. Heatmaps propuestos
+-----------------------
+Se generaron pesos para tres capas: eventos, menciones e impacto social.
+heat_weight_eventos = 1
+heat_weight_menciones = mentions
+heat_weight_impacto_social = likes + comments*2 + shares*3 + quotes*3 + log(1 + views)
+Estas capas se pueden superponer en dashboard con controles de opacidad.
+
+20. Conclusion
+--------------
+incidentes.csv tiene mayor madurez que ultimas_100_noticias.csv para visualizacion geoespacial e interaccion social.
+La cobertura de coordenadas permite construir una capa de puntos y heatmaps. El engagement permite medir afectacion/amplificacion social.
+Las coordenadas problematicas y repetidas deben permanecer como indicadores de integridad, no eliminarse.
+OSM debe usarse en modo spatial-first: punto -> via cercana -> atributos viales -> validacion textual.

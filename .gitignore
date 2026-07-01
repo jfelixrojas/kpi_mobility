@@ -1,0 +1,52 @@
+# Sistema
+.DS_Store
+**/.DS_Store
+__pycache__/
+*.pyc
+
+# Entornos locales
+.env
+.venv/
+venv/
+env/
+
+# Temporales
+tmp/
+*.log
+
+# Informacion contractual o sensible
+Información_contractual/
+Informacion_contractual/
+Información_contractual/
+
+# Datos brutos y procesados
+Data/
+
+# Resultados tabulares/geoespaciales derivados con datos
+*.csv
+*.json
+*.geojson
+*.kmz
+*.kml
+*.xlsx
+*.xls
+*.numbers
+
+# Informes fuente o contractuales
+Informes/Informe_*/
+*.docx
+*.pages
+
+# Compilacion LaTeX y artefactos auxiliares
+*.aux
+*.bbl
+*.blg
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.out
+
+# Caches de herramientas
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/

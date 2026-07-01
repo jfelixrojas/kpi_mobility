@@ -1,0 +1,87 @@
+Experimentos de pesos para corredores criticos
+====================================================
+
+Alcance metodologico
+--------------------
+Estos experimentos no aprenden pesos optimos porque no existe una verdad observada externa contra la cual entrenar o calibrar el score, por ejemplo siniestralidad oficial, aforos, velocidades reales o tiempos de viaje. Lo que se evalua es sensibilidad: si un corredor permanece critico cuando cambia el enfoque analitico.
+
+Tabla base utilizada: corridor_norm. Corredores evaluados: 46.
+
+Pesos evaluados
+----------------
+ACTUAL_PIPELINE (Score actual del pipeline exploratorio): events=0.24; mentions=0.14; impact_social=0.18; severity_sum=0.16; fatality_events=0.10; injury_events=0.07; vulnerable_events=0.05; osm_high_medium=0.06. Suma=1.00
+A_RECURRENCIA_VOLUMEN (Escenario A: recurrencia y volumen): events=0.40; severity_sum=0.18; fatality_events=0.10; injury_events=0.07; vulnerable_events=0.05; mentions=0.08; impact_social=0.07; osm_high_medium=0.05. Suma=1.00
+B_SEVERIDAD (Escenario B: severidad vial): events=0.16; mentions=0.06; impact_social=0.08; severity_sum=0.25; fatality_events=0.20; injury_events=0.12; vulnerable_events=0.08; osm_high_medium=0.05. Suma=1.00
+C_SOCIAL_NOTICIOSO (Escenario C: amplificacion social/noticiosa): events=0.14; mentions=0.25; impact_social=0.35; severity_sum=0.08; fatality_events=0.05; injury_events=0.04; vulnerable_events=0.03; osm_high_medium=0.06. Suma=1.00
+
+Lectura de variables
+--------------------
+events: volumen de eventos asociados al corredor.
+severity_sum: severidad acumulada de los eventos reportados.
+fatality_events, injury_events y vulnerable_events: senales de gravedad y usuarios vulnerables.
+mentions e impact_social: amplificacion noticiosa/social, no equivalen a accidentalidad real.
+osm_high_medium: eventos con asociacion espacial OSM alta o media.
+
+Top 10 - ACTUAL_PIPELINE
+-----------------------
+1. Carretera Panamericana - score 79.88
+2. Carretera A Sonsonate - score 36.05
+3. Avenida Oidor Pedro Ramirez de Quinonez - score 28.61
+4. Carretera A Armenia - score 28.35
+5. Carretera Quezaltepeque - San Juan Opico - score 20.93
+6. Carretera al Puerto de La Libertad - score 20.31
+7. Boulevard Constitucion - score 19.07
+8. Paseo General Escalón - score 18.05
+9. Avenida Bernal - score 17.17
+10. Calle A Mariona - score 15.72
+
+Top 10 - A_RECURRENCIA_VOLUMEN
+-----------------------------
+1. Carretera Panamericana - score 84.03
+2. Carretera A Sonsonate - score 38.53
+3. Avenida Oidor Pedro Ramirez de Quinonez - score 27.74
+4. Carretera al Puerto de La Libertad - score 21.43
+5. Carretera A Armenia - score 17.93
+6. Boulevard Constitucion - score 17.77
+7. Carretera Quezaltepeque - San Juan Opico - score 17.68
+8. Avenida Bernal - score 17.10
+9. Calle A Mariona - score 15.36
+10. Paseo General Escalón - score 14.20
+
+Top 10 - B_SEVERIDAD
+-------------------
+1. Carretera Panamericana - score 71.65
+2. Carretera A Sonsonate - score 50.80
+3. Avenida Oidor Pedro Ramirez de Quinonez - score 31.76
+4. Carretera A Armenia - score 22.78
+5. Carretera Quezaltepeque - San Juan Opico - score 20.79
+6. Avenida Bernal - score 19.98
+7. Carretera A Ilobasco Cabanas - score 17.41
+8. Calle A Mariona - score 17.18
+9. Carretera de San Salvador A Sonsonate Altura de Piedras Pachas - score 15.74
+10. Carretera al Puerto de La Libertad - score 15.60
+
+Top 10 - C_SOCIAL_NOTICIOSO
+--------------------------
+1. Carretera Panamericana - score 79.81
+2. Carretera A Armenia - score 42.25
+3. Avenida Oidor Pedro Ramirez de Quinonez - score 27.61
+4. Carretera A Sonsonate - score 25.14
+5. Carretera Quezaltepeque - San Juan Opico - score 24.35
+6. Paseo General Escalón - score 24.35
+7. Boulevard Constitucion - score 22.74
+8. Carretera al Puerto de La Libertad - score 21.69
+9. Avenida Bernal - score 15.35
+10. Calle A Mariona - score 14.87
+
+Corredores robustos
+-------------------
+Carretera Panamericana - top5=4/4, ranking_promedio=1.00, score_promedio=78.84
+Carretera A Sonsonate - top5=4/4, ranking_promedio=2.50, score_promedio=37.63
+Avenida Oidor Pedro Ramirez de Quinonez - top5=4/4, ranking_promedio=3.00, score_promedio=28.93
+Carretera A Armenia - top5=4/4, ranking_promedio=3.75, score_promedio=27.83
+Carretera Quezaltepeque - San Juan Opico - top5=3/4, ranking_promedio=5.50, score_promedio=20.94
+
+Interpretacion
+---------------
+Un corredor ROBUSTO merece analisis prioritario porque no depende de un unico supuesto de ponderacion. Un corredor DEPENDIENTE_DEL_ENFOQUE puede ser relevante, pero solo bajo una lectura especifica, por ejemplo social o severidad. Un corredor NO_PRIORITARIO no aparece recurrentemente en los escenarios evaluados.
