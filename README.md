@@ -2,7 +2,7 @@
 
 Este repositorio contiene una prueba de concepto para analizar eventos viales reportados en noticias y redes, asociarlos espacialmente con una red vial de OpenStreetMap (OSM) y evaluar si esta fuente puede aportar una metrica complementaria al sistema de movilidad.
 
-El objetivo no es construir todavia el KPI final de movilidad. El objetivo de esta etapa es demostrar, con evidencia de datos, si las noticias georreferenciadas permiten construir una senal util de **Presion Vial Noticiosa (PVN)**: volumen de eventos, severidad preliminar, recurrencia por corredor, asociacion evento-via, engagement social y calidad del dato.
+El objetivo no es construir todavia el KPI final de movilidad. El objetivo de esta etapa es demostrar, con evidencia de datos, si las noticias georreferenciadas permiten construir una señal util de Presion Vial Noticiosa (PVN): volumen de eventos, severidad preliminar, recurrencia por corredor, asociacion evento-via, engagement social y calidad del dato.
 
 ## Que contiene el proyecto
 
@@ -185,7 +185,7 @@ make run-incidentes-figures
 - La coordenada del evento es la fuente principal para asociar noticia y via.
 - OSM se usa como red vial base para encontrar el segmento vial mas cercano y caracterizar la via.
 - `corridor_norm` consolida nombres funcionales de corredores cuando OSM usa nombres locales o referencias distintas.
-- La PVN no mide siniestralidad oficial. Mide una senal experimental basada en noticias, georreferenciacion, severidad preliminar y engagement.
+- La PVN no mide siniestralidad oficial. Mide una señal experimental basada en noticias, georreferenciacion, severidad preliminar y engagement.
 - Los scores de corredores son exploratorios. Sirven para evaluar robustez, recurrencia y potencial utilidad de la fuente noticiosa, no para reemplazar estadisticas oficiales.
 
 ## Comando principal
