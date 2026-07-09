@@ -1,4 +1,4 @@
-.PHONY: run-visualization run-news-evaluation download-osm-departments run-incidentes-analysis run-corridor-weight-experiments run-incidentes-figures run-incidentes-dashboard
+.PHONY: run-visualization run-news-evaluation download-osm-departments run-incidentes-analysis run-corridor-weight-experiments run-incidentes-figures run-incidentes-dashboard run-waze-jams-analysis run-waze-operational-osm run-waze-road-normalization-benchmark run-waze-reference-normalization-study run-waze-alerts-analysis run-waze-alerts-animation run-waze-alerts-animation-capital run-waze-integrated-analysis
 
 PYTHON ?= python3
 STREAMLIT_PORT ?= auto
@@ -30,6 +30,30 @@ run-corridor-weight-experiments:
 
 run-incidentes-figures:
 	$(PYTHON) Codigos/generate_incidentes_executive_figures.py
+
+run-waze-jams-analysis:
+	$(PYTHON) Codigos/waze_jams_analysis_pipeline.py
+
+run-waze-operational-osm:
+	$(PYTHON) Codigos/waze_operational_osm_association.py
+
+run-waze-road-normalization-benchmark:
+	$(PYTHON) Codigos/waze_road_normalization_benchmark.py
+
+run-waze-reference-normalization-study:
+	$(PYTHON) Codigos/waze_reference_normalization_study.py
+
+run-waze-alerts-analysis:
+	$(PYTHON) Codigos/waze_alerts_analysis_pipeline.py
+
+run-waze-alerts-animation:
+	$(PYTHON) Codigos/generate_waze_alerts_animation.py
+
+run-waze-alerts-animation-capital:
+	$(PYTHON) Codigos/generate_waze_alerts_animation.py --scope capital
+
+run-waze-integrated-analysis:
+	$(PYTHON) Codigos/waze_alerts_jams_integration_pipeline.py
 
 
 run-incidentes-dashboard:
